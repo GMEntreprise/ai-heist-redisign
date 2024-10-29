@@ -1,10 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { PayPalButtons } from "@paypal/react-paypal-js";
+import { db } from "@/config/db";
+import { Users } from "@/config/schema";
+import { UserDetailContext } from "@/app/_context/UserDetailContext";
+import { useRouter } from "next/navigation";
 
 function BuyCredits() {
   const [selectedOption, setSelectedOption] = useState([]);
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  const router = useRouter();
   const creditsOption = [
     {
       credits: 5,
@@ -27,6 +34,27 @@ function BuyCredits() {
       amount: 9.99,
     },
   ];
+
+  const onPaymentSuccess = async () => {
+    console.log("Payment Sucess..");
+
+    // Update User Credits in DB
+
+    const result = await db
+      .update(Users)
+      .set({
+        credits: userDetail?.credits + selectedOption?.credits,
+      })
+      .returning({ id: Users.id });
+
+    if (result) {
+      setUserDetail((prev) => ({
+        ...prev,
+        credits: userDetail?.credits + selectedOption?.credits,
+      }));
+      router.push("/dashboard");
+    }
+  };
 
   return (
     <div>
@@ -60,6 +88,27 @@ function BuyCredits() {
             </div>
           );
         })}
+      </div>
+      <div className="mt-20">
+        {selectedOption?.amount && (
+          <PayPalButtons
+            style={{ layout: "horizontal" }}
+            onApprove={() => onPaymentSuccess()}
+            onCancel={() => console.log("Payment Cancel")}
+            createOrder={(data, actions) => {
+              return actions?.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: selectedOption?.amount?.toFixed(2),
+                      currency_code: "USD",
+                    },
+                  },
+                ],
+              });
+            }}
+          />
+        )}
       </div>
     </div>
   );

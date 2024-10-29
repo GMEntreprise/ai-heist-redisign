@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ImageSelection from "./_components/ImageSelection";
 import RoomType from "./_components/RoomType";
 import DesignType from "./_components/DesignType";
@@ -12,6 +12,9 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
 import AiOutputDialog from "../_components/AiOutputDialog";
+import { db } from "@/config/db";
+import { Users } from "@/config/schema";
+import { UserDetailContext } from "@/app/_context/UserDetailContext";
 
 function CreateNew() {
   const { user } = useUser();
@@ -21,6 +24,7 @@ function CreateNew() {
   const [aiOutputImage, setAiOutputImage] = useState();
   const [openOutputDialog, setOpenOutputDialog] = useState(false);
   const [orgImage, setOrgImage] = useState();
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
   const onHandleInputChange = (value, fieldName) => {
     setFormData((prev) => ({
@@ -45,7 +49,26 @@ function CreateNew() {
     console.log(result.data);
     setAiOutputImage(result.data.result); // Output Image Url
     setOpenOutputDialog(true);
+    await updateUserCredits();
     setLoading(false);
+  };
+
+  // Update the user credits
+  const updateUserCredits = async () => {
+    const result = await db
+      .update(Users)
+      .set({
+        credits: userDetail?.credits - 1,
+      })
+      .returning({ id: Users.id });
+
+    if (result) {
+      setUserDetail((prev) => ({
+        ...prev,
+        credits: userDetail?.credits - 1,
+      }));
+      return result[0].id;
+    }
   };
 
   const saveRawImageToFirebase = async () => {
@@ -114,7 +137,7 @@ function CreateNew() {
           </p>
         </div>
       </div>
-      <CustomLoading loading={false} />
+      <CustomLoading loading={loading} />
       <AiOutputDialog
         openDialog={openOutputDialog}
         closeDialog={() => setOpenOutputDialog(false)}

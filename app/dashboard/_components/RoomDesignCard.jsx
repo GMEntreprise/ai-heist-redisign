@@ -29,7 +29,7 @@ function RoomDesignCard({ room }) {
         aiImage={room.aiImage}
         orgImage={room.orgImage}
         closeDialog={() => setOpenDialog(false)}
-        openDialog={!openDialog}
+        openDialog={openDialog}
       />
     </div>
   );

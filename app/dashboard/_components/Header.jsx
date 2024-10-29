@@ -13,12 +13,14 @@ function Header() {
   return (
     <div className="p-4 shadow-sm flex justify-between items-center flex-wrap gap-4 md:gap-0 md:flex-nowrap">
       {/* Logo et Titre */}
+        <Link href={"/"}>
       <div className="flex gap-2 items-center">
-        <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
-        <h2 className="font-bold text-base sm:text-lg md:text-xl">
-          Ai Heist Design
-        </h2>
+          <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
+          <h2 className="font-bold text-base sm:text-lg md:text-xl">
+            Ai Heist Design
+          </h2>
       </div>
+     </Link>
 
       {/* Bouton principal - Cacher sur petit écran */}
       <div className="hidden sm:block">
