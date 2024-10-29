@@ -6,12 +6,16 @@ import AiOutputDialog from "./AiOutputDialog";
 function RoomDesignCard({ room }) {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const onClickHandler = () => {
+  const handleDialogOpen = () => {
     setOpenDialog(true);
   };
 
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
-    <div className="shadow-md rounded-md" onClick={() => onClickHandler()}>
+    <div className="shadow-md rounded-md" onClick={handleDialogOpen}>
       <ReactBeforeSliderComponent
         firstImage={{
           imageUrl: room?.aiImage,
@@ -25,12 +29,12 @@ function RoomDesignCard({ room }) {
         <h2>🎨 Type de design : {room?.designType}</h2>
       </div>
 
-      <AiOutputDialog
+      {/* <AiOutputDialog
         aiImage={room.aiImage}
         orgImage={room.orgImage}
-        closeDialog={() => setOpenDialog(false)}
+        closeDialog={handleDialogClose}
         openDialog={openDialog}
-      />
+      /> */}
     </div>
   );
 }

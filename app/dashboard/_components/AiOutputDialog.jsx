@@ -11,20 +11,22 @@ import "react-before-after-slider-component/dist/build.css";
 
 function AiOutputDialog({ openDialog, closeDialog, orgImage, aiImage }) {
   return (
-    <AlertDialog open={openDialog}>
+    <AlertDialog open={openDialog} onOpenChange={closeDialog}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Result : {}</AlertDialogTitle>
-          <ReactBeforeSliderComponent
-            firstImage={{
-              imageUrl: aiImage,
-            }}
-            secondImage={{
-              imageUrl: orgImage,
-            }}
-          />
-          <Button onClick={() => closeDialog(false)}>Fermer</Button>
+          <AlertDialogTitle>Résultat :</AlertDialogTitle>
         </AlertDialogHeader>
+        <ReactBeforeSliderComponent
+          firstImage={{
+            imageUrl: aiImage,
+          }}
+          secondImage={{
+            imageUrl: orgImage,
+          }}
+        />
+        <Button onClick={closeDialog} className="mt-4">
+          Fermer
+        </Button>
       </AlertDialogContent>
     </AlertDialog>
   );
