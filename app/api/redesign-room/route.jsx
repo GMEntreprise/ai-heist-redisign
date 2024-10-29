@@ -28,14 +28,14 @@ export async function POST(req) {
         additionalReq,
     };
 
-    // const output = await replicate.run(
-    //   "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
-    //   { input }
-    // );
-    // console.log(output);
+    const output = await replicate.run(
+      "adirik/interior-design:76604baddc85b1b4616e1c6475eca080da339c8875bd4996705440484a6eac38",
+      { input }
+    );
+    console.log(output);
     // return NextResponse.json({ result: output });
-    const output =
-      "https://replicate.delivery/pbxt/KhTNuTIKK1F1tvVl8e7mqOlhR3z3D0SAojAMN8BNftCvAubM/bedroom_3.jpg";
+    // const output =
+    //   "https://replicate.delivery/pbxt/KhTNuTIKK1F1tvVl8e7mqOlhR3z3D0SAojAMN8BNftCvAubM/bedroom_3.jpg";
 
     //  Convert Output Url to BASE64 Image
 
@@ -63,7 +63,7 @@ export async function POST(req) {
       .returning({ id: AiGeneratedImage.id });
     console.log(dbResult);
 
-    return NextResponse.json({ result: dbResult[0] });
+    return NextResponse.json({ result: downloadUrl });
   } catch (error) {
     return NextResponse.json({ error: error });
   }

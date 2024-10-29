@@ -11,12 +11,16 @@ import { storage } from "@/config/firebaseConfig";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUser } from "@clerk/nextjs";
 import CustomLoading from "./_components/CustomLoading";
+import AiOutputDialog from "../_components/AiOutputDialog";
 
 function CreateNew() {
   const { user } = useUser();
   const [formData, setFormData] = useState();
   const [loading, setLoading] = useState(false);
-  const [outputResult, setOutputResult] = useState();
+  // const [outputResult, setOutputResult] = useState();
+  const [aiOutputImage, setAiOutputImage] = useState();
+  const [openOutputDialog, setOpenOutputDialog] = useState(false);
+  const [orgImage, setOrgImage] = useState();
 
   const onHandleInputChange = (value, fieldName) => {
     setFormData((prev) => ({
@@ -39,7 +43,8 @@ function CreateNew() {
     });
 
     console.log(result.data);
-    setOutputResult(result.data.result);
+    setAiOutputImage(result.data.result); // Output Image Url
+    setOpenOutputDialog(true);
     setLoading(false);
   };
 
@@ -57,6 +62,7 @@ function CreateNew() {
 
     const downloadUrl = await getDownloadURL(imageRef);
     console.log("downloadUrl ;", downloadUrl);
+    setOrgImage(downloadUrl);
 
     return downloadUrl;
   };
@@ -108,7 +114,13 @@ function CreateNew() {
           </p>
         </div>
       </div>
-      <CustomLoading loading={true} />
+      <CustomLoading loading={false} />
+      <AiOutputDialog
+        openDialog={openOutputDialog}
+        closeDialog={() => setOpenOutputDialog(false)}
+        orgImage={orgImage}
+        aiImage={aiOutputImage}
+      />
     </div>
   );
 }

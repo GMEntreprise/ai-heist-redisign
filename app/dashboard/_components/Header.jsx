@@ -4,6 +4,7 @@ import { UserDetailContext } from "@/app/_context/UserDetailContext";
 import { Button } from "@/components/ui/button";
 import { UserButton } from "@clerk/nextjs";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useContext } from "react";
 
 function Header() {
@@ -21,12 +22,14 @@ function Header() {
 
       {/* Bouton principal - Cacher sur petit écran */}
       <div className="hidden sm:block">
-        <Button
-          variant="ghost"
-          className="rounded-full text-primary text-sm sm:text-base"
-        >
-          Boostez votre expérience en ajoutant des crédits !
-        </Button>
+        <Link href={"/dashboard/buy-credits"}>
+          <Button
+            variant="ghost"
+            className="rounded-full text-primary text-sm sm:text-base"
+          >
+            Boostez votre expérience en ajoutant des crédits !
+          </Button>
+        </Link>
       </div>
 
       {/* Crédits et Bouton utilisateur */}
