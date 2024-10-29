@@ -1,35 +1,43 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Header from "./dashboard/_components/Header";
 import Link from "next/link";
+import HeaderHome from "./HeaderHome";
+import { ChevronRightIcon } from "@radix-ui/react-icons";
+import {
+  BookOpen,
+  Brush,
+  ChevronRight,
+  MessagesSquare,
+  TabletSmartphone,
+} from "lucide-react";
 
 export default function Home() {
   const assets = [
     {
       title: "Télécharger",
       desc: "Téléchargez la photo de votre pièce",
-      icon: "/upload.svg",
+      icon: <TabletSmartphone color={"#fff"} />,
     },
     {
       title: "Choisir un Design",
       desc: "Sélectionnez le type de design et de pièce",
-      icon: "/selectD.svg",
+      icon: <Brush color={"#fff"} />,
     },
     {
       title: "Prêt à Télécharger",
       desc: "Votre design d'intérieur pour la pièce/maison est prêt",
-      icon: "/download.svg",
+      icon: <BookOpen color={"#fff"} />,
     },
     {
       title: "Support 24/7",
       desc: "Contactez-nous 24h/24 et 7j/7",
-      icon: "/support.svg",
+      icon: <MessagesSquare color={"#fff"} />,
     },
   ];
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Header />
+      <HeaderHome />
 
       {/* Section Header */}
       <div className="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-10">
@@ -51,7 +59,7 @@ export default function Home() {
         <Link href={"/dashboard"} className="mt-8 gap-3 flex justify-center">
           <Button className="inline-flex justify-center items-center  gap-x-3 text-center bg-gradient-to-tl from-blue-600 to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4 dark:focus:ring-offset-gray-800 ">
             Commencer
-            <Image src={"/arrow.svg"} alt="arrow" width={20} height={20} />
+            <ChevronRight color="#fff" />
           </Button>
         </Link>
       </div>
@@ -60,15 +68,15 @@ export default function Home() {
       <div className="flex items-center justify-center sm:flex-col">
         <div className="flex flex-col sm:flex-row gap-8">
           <Image
-            src="/LivingRoom.jpg" 
+            src="/LivingRoom.jpg"
             alt="Room Before"
             width={300}
             height={200}
-            className="rounded-lg shadow-lg max-w-full h-auto" 
+            className="rounded-lg shadow-lg max-w-full h-auto"
           />
           <span className="flex justify-center items-center text-4xl">→</span>
           <Image
-            src="/replicate.png" 
+            src="/replicate.png"
             alt="Room After"
             width={300}
             height={200}
@@ -87,7 +95,7 @@ export default function Home() {
               className="group flex flex-col justify-center hover:bg-gray-50 rounded-xl p-4 md:p-7 dark:hover:bg-neutral-800"
             >
               <div className="flex justify-center items-center size-12 bg-blue-600 rounded-xl">
-                <Image src={step.icon} alt="icon" width={20} height={20} />
+                {step.icon}
               </div>
               <div class="mt-5">
                 <h3 class="group-hover:text-gray-600 text-lg font-semibold text-gray-800 dark:text-white dark:group-hover:text-gray-400">
@@ -98,12 +106,7 @@ export default function Home() {
                 </p>
                 <span class="mt-2 inline-flex items-center gap-x-1.5 text-sm text-blue-600 decoration-2 group-hover:underline font-medium">
                   En savoir plus
-                  <Image
-                    src={"/arrow.svg"}
-                    alt="arrow"
-                    width={20}
-                    height={20}
-                  />
+                  <ChevronRightIcon />
                 </span>
               </div>
             </Link>
